@@ -1,0 +1,189 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Contact API",
+        "version": "1.0.0",
+        "description": "API for submitting contact forms from multiple websites"
+    },
+    "servers": [
+        {
+            "url": "https://your-api-domain.com/api/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/contacts": {
+            "post": {
+                "summary": "Submit a contact form",
+                "tags": ["Contacts"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ContactPayload"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful submission",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContactResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Rate limit exceeded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RateLimitResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ContactPayload": {
+                "type": "object",
+                "required": ["name", "email", "message"],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe",
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com",
+                        "maxLength": 255
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "+1234567890",
+                        "maxLength": 20
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "I'm interested in your services",
+                        "minLength": 10,
+                        "maxLength": 5000
+                    },
+                    "source_website": {
+                        "type": "string",
+                        "format": "url",
+                        "example": "https://client-website.com",
+                        "maxLength": 255
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "example": {
+                            "page_url": "/contact-us",
+                            "utm_source": "google"
+                        }
+                    }
+                }
+            },
+            "ContactResponse": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Contact submission received"
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "contact_id": {
+                                "type": "integer",
+                                "example": 123
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "John Doe"
+                            },
+                            "email": {
+                                "type": "string",
+                                "example": "john@example.com"
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2023-07-20T12:34:56Z"
+                            }
+                        }
+                    }
+                }
+            },
+            "ValidationErrorResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "The given data was invalid."
+                    },
+                    "errors": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "example": {
+                            "email": ["The email must be a valid email address."]
+                        }
+                    }
+                }
+            },
+            "RateLimitResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Too many submissions. Please try again later."
+                    },
+                    "retry_after": {
+                        "type": "integer",
+                        "example": 120
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "APIKey": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-API-KEY",
+                "description": "Optional API key for trusted partners"
+            }
+        }
+    }
+}
