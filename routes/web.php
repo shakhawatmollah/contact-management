@@ -31,7 +31,7 @@ Route::get('/test', function () {
 
 Route::get('/', function () {
     return view('welcome');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('dashboard');
 
 
 Route::middleware(['auth'])->group(function () {
