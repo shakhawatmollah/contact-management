@@ -138,14 +138,6 @@ Run the test suite with:
 php artisan test
 ```
 
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## Support
-
-For support, please open an issue on GitHub.
-
 ### Client-Side Implementation Example
 
 Here's how clients can implement the API in their websites:
@@ -221,3 +213,10 @@ X-API-KEY: your-api-key
 }
 ```
 
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## Support
+
+For support, please open an issue on GitHub.
