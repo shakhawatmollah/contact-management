@@ -19,8 +19,6 @@ class ContactApiController extends Controller
 
     public function store(ApiContactRequest $request): \Illuminate\Http\JsonResponse
     {
-      //  dd($request->header('X-API-KEY'), config('contact.api.key'));
-       // dd($request->ip());
         // Rate limiting by IP and email combination
         $rateLimitKey = 'contact-api:'.$request->ip().'|'.$request->email;
 
@@ -61,35 +59,4 @@ class ContactApiController extends Controller
         }
     }
 
-//    public function store(ContactFormRequest $request)
-//    {
-//        $executed = RateLimiter::attempt(
-//            'contact-form:'.$request->ip(),
-//            $perMinute = 5,
-//            function() {}
-//        );
-//
-//        if (!$executed) {
-//            return response()->json([
-//                'message' => 'Too many submissions. Please try again later.'
-//            ], 429);
-//        }
-//
-//        $data = $request->validated();
-//        $data['ip_address'] = $request->ip();
-//        $data['source_website'] = $request->header('origin', 'unknown');
-//
-//        try {
-//            $contact = $this->contactService->createContact($data);
-//            return response()->json([
-//                'message' => 'Contact form submitted successfully',
-//                'data' => $contact
-//            ], 201);
-//        } catch (\Exception $e) {
-//            return response()->json([
-//                'message' => 'Failed to process contact form',
-//                'error' => $e->getMessage()
-//            ], 500);
-//        }
-//    }
 }
