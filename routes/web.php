@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,11 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    // Websites
+    Route::resource('websites', WebsiteController::class);
+    Route::get('/websites-data', [WebsiteController::class, 'getWebsites'])->name('websites.data');
+    Route::post('/regenerate-api-keys', [WebsiteController::class, 'regenerateApiKeys'])->name('regenerate-api-keys');
+
     // Contact routes
     Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
     Route::get('/contacts/{contact}', [ContactController::class, 'show'])->name('contacts.show');

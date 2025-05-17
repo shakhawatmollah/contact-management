@@ -87,9 +87,11 @@ class EmailController extends Controller
         // Update sent_at after successful sending
         $email->update(['sent_at' => now()]);
 
+
         if ($request->save_template) {
             // Save as template logic here
         }
+      //  dd($email);
 
         return redirect()->route('emails.index')
             ->with('success', 'Email sent successfully!');

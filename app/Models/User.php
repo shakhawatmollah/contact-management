@@ -45,4 +45,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the websites managed by this user.
+     */
+    public function websites()
+    {
+        return $this->belongsToMany(Website::class, 'website_user', 'user_id', 'website_id');
+    }
 }

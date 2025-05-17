@@ -46,9 +46,9 @@
                                         </a>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {{ $email->sent_at?->format('M j, Y g:i A') }}
+                                        {{ $email->sent_at }}
                                     </td>
-                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-ri    ght text-sm font-medium sm:pr-6">
                                         <a href="{{ route('emails.show', $email) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">View</a>
                                         <a href="{{ route('emails.reply', $email->contact) }}" class="text-indigo-600 hover:text-indigo-900">Reply</a>
                                     </td>

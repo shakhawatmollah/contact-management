@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Website;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,14 @@ class SecureContactApi
                 return response()->json([
                     'success' => false,
                     'message' => 'Unauthorized request origin'
+                ], 403);
+            }
+
+            // Check if the API key is valid for the website
+            if (!Website::where('api_key', $request->header('X-API-KEY'))->exists()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid API key'
                 ], 403);
             }
         }
